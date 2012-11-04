@@ -9,7 +9,7 @@
 // * [Nicholas Zakas: Scalable JavaScript Application Architecture](http://www.youtube.com/watch?v=vXjVFPosQHw&feature=youtube_gdata_player)
 // * [Writing Modular JavaScript: New Premium Tutorial](http://net.tutsplus.com/tutorials/javascript-ajax/writing-modular-javascript-new-premium-tutorial/)
 // include 'deferred' if using zepto
-define(['aura_base'], function(base) {
+define(['aura_base', 'sandbox'], function(base, sandbox) {
 
   'use strict';
 
@@ -18,6 +18,7 @@ define(['aura_base'], function(base) {
   var emitQueue = [];
   var isWidgetLoading = false;
   var WIDGETS_PATH = '../../../widgets'; // Path to widgets
+  var sandboxSerial = 0; // For unique widget sandbox module names
 
   // Load in the base library, such as Zepto or jQuery. the following are
   // required for Aura to run:
@@ -250,7 +251,25 @@ define(['aura_base'], function(base) {
         widgetsPath = requireConfig.paths.widgets;
       }
 
-      require([widgetsPath + '/' + file + '/main'], function(main) {
+      var widgetPath = widgetsPath + '/' + file;
+      // Unique sandbox module to be used by this widget
+      var widgetSandbox = 'sandbox$' + sandboxSerial++;
+
+      // Construct RequireJS map configuration
+      var sandboxMap = {};
+      // Every module whose path prefix matches widgetSandbox will get the unique sandbox for this widget
+      sandboxMap[widgetPath] = {
+        sandbox: widgetSandbox
+      };
+
+      var req = require.config({
+        map: sandboxMap
+      });
+
+      // Instantiate and define the unique sandbox
+      define(widgetSandbox, sandbox.create(core));
+
+      req([widgetPath + '/main'], function(main) {
         try {
           main(options);
         } catch (e) {
