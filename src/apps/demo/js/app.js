@@ -34,7 +34,12 @@ define(['aura_core', 'backboneSandbox'], function(core, backboneSandbox) {
   }, {
     channel: 'boilerplate',
     options: {
-      element: '#boilerplateapp'
+      element: '#boilerplateapp1'
+    }
+  }, {
+    channel: 'boilerplate',
+    options: {
+      element: '#boilerplateapp2'
     }
   }, {
     channel: 'router',
