@@ -255,7 +255,7 @@ define(['aura_base', 'aura_sandbox', 'aura_perms'], function(base, sandbox, perm
     var promises = [];
 
     function load(channel, options) {
-      var file = decamelize(channel);
+      var widgetName = decamelize(channel);
       var dfd = core.data.deferred();
       var widgetsPath = core.getWidgetsPath();
       var requireConfig = require.s.contexts._.config;
@@ -264,23 +264,27 @@ define(['aura_base', 'aura_sandbox', 'aura_perms'], function(base, sandbox, perm
         widgetsPath = requireConfig.paths.widgets;
       }
 
-      var widgetPath = widgetsPath + '/' + file;
+      var widgetPath = widgetsPath + '/' + widgetName;
       // Unique sandbox module to be used by this widget
-      var widgetSandboxPath = 'sandbox$' + sandboxSerial++;
+      var widgetSandboxPath = 'sandbox$' + widgetName + '-' + sandboxSerial++;
 
-      // Construct RequireJS map configuration
-      var sandboxMap = {};
-      // Every module whose path prefix matches widgetSandbox will get the unique sandbox for this widget
-      sandboxMap[widgetPath] = {
-        sandbox: widgetSandboxPath
+      var sandboxRequireConfig = {
+        baseUrl: requireConfig.baseUrl,
+        paths: requireConfig.paths,
+        context: widgetSandboxPath,
+        map: {},
+        packages: [
+          { name: widgetName, location: widgetPath }
+        ]
       };
 
-      var req = require.config({
-        map: sandboxMap
-      });
+      sandboxRequireConfig.map[widgetName] = { sandbox: widgetSandboxPath };
+
+      var req = require.config(sandboxRequireConfig);
 
       // Instantiate unique sandbox
       var widgetSandbox = sandbox.create(core, channel);
+      widgetSandbox.id  = widgetSandboxPath;
 
       // Apply application extensions
       if (core.getSandbox) {
@@ -290,7 +294,7 @@ define(['aura_base', 'aura_sandbox', 'aura_perms'], function(base, sandbox, perm
       // Define the unique sandbox
       define(widgetSandboxPath, widgetSandbox);
 
-      req([widgetPath + '/main'], function(main) {
+      req([widgetName], function(main) {
         try {
           main(options);
         } catch (e) {
