@@ -1,4 +1,4 @@
-#todoapp .widget {
+.todoapp .widget {
   font: 14px'Helvetica Neue', Helvetica, Arial, sans-serif;
   line-height: 1.4em;
   color: #4d4d4d;
@@ -17,7 +17,7 @@
   border-top-right-radius: 2px;
   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.2), 0 25px 50px 0 rgba(0, 0, 0, 0.15);
 }
-#todoapp .widget:before {
+.todoapp .widget:before {
   content:'';
   border-left: 1px solid #f5d6d6;
   border-right: 1px solid #f5d6d6;
@@ -27,14 +27,14 @@
   left: 40px;
   height: 100%;
 }
-#todoapp .widget input::-webkit-input-placeholder {
+.todoapp .widget input::-webkit-input-placeholder {
   font-style: italic;
 }
-#todoapp .widget input:-moz-placeholder {
+.todoapp .widget input:-moz-placeholder {
   font-style: italic;
   color: #a9a9a9;
 }
-#todoapp .widget button {
+.todoapp .widget button {
   margin: 0;
   padding: 0;
   border: 0;
@@ -49,7 +49,7 @@
   -o-appearance: none;
   appearance: none;
 }
-#todoapp .widget h1 {
+.todoapp .widget h1 {
   position: absolute;
   top: -120px;
   width: 100%;
@@ -310,7 +310,7 @@ label[for='toggle-all'] {
 #filters li a.selected {
   font-weight: bold;
 }
-#todoapp .widget #clear-completed {
+.todoapp .widget #clear-completed {
   float: right;
   line-height: 20px;
   text-decoration: none;

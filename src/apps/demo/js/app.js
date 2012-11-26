@@ -22,6 +22,11 @@ define(['aura_core', 'backboneSandbox'], function(core, backboneSandbox) {
       element: '#todoapp'
     }
   }, {
+    channel: 'todos',
+    options: {
+      element: '#todoapp2'
+    }
+  }, {
     channel: 'calendar',
     options: {
       element: '#calendarapp'

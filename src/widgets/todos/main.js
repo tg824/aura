@@ -3,7 +3,8 @@ define(['sandbox', './views/app'], function(sandbox, AppView) {
 
   return function(options) {
     new AppView({
-      el: sandbox.dom.find(options.element)
+      el:     sandbox.dom.find(options.element),
+      store:  options.element
     });
 
     sandbox.emit('bootstrap', 'todos');

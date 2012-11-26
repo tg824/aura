@@ -1,5 +1,7 @@
-define(['sandbox', '../collections/todos', './todos', 'text!../templates/base.html', 'text!../templates/stats.html', 'i18n!../../../nls/todos'], function(sandbox, Todos, TodoView, baseTemplate, statsTemplate, lang) {
+define(['sandbox', '../collections/todos', './todos', 'text!../templates/base.html', 'text!../templates/stats.html', 'i18n!../../../nls/todos'], function(sandbox, TodosCollection, TodoView, baseTemplate, statsTemplate, lang) {
   'use strict';
+
+  var Todos;
 
   var AppView = sandbox.mvc.View({
 
@@ -22,11 +24,11 @@ define(['sandbox', '../collections/todos', './todos', 'text!../templates/base.ht
     // At initialization we bind to the relevant events on the `Todos`
     // collection, when items are added or changed. Kick things off by
     // loading any preexisting todos that might be saved in *localStorage*.
-    initialize: function() {
+    initialize: function(options) {
       this.$el.html(this.baseTemplate(lang));
       this.input = this.$('#new-todo');
       this.allCheckbox = this.$('#toggle-all')[0];
-
+      Todos = new TodosCollection([], { store: options.store });
       Todos.bind('add', this.addOne, this);
       Todos.bind('reset', this.addAll, this);
       Todos.bind('all', this.render, this);
