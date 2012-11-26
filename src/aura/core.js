@@ -15,6 +15,7 @@ define(['aura_base', 'aura_sandbox', 'aura_perms'], function(base, sandbox, perm
 
   var core = {}; // Mediator object
   var channels = {}; // Loaded modules and their callbacks
+  var contexts = {};
   var emitQueue = [];
   var isWidgetLoading = false;
   var WIDGETS_PATH = 'widgets'; // Path to widgets
@@ -260,18 +261,28 @@ define(['aura_base', 'aura_sandbox', 'aura_perms'], function(base, sandbox, perm
       var widgetsPath = core.getWidgetsPath();
       var requireConfig = require.s.contexts._.config;
 
+      var element = core.dom.find(options.element)[0];
+
+      if (!element) {
+        throw new Error("Cannot find element " + options.element + "  to load widget " +  channel);
+      }
+
       if (requireConfig.paths && requireConfig.paths.hasOwnProperty('widgets')) {
         widgetsPath = requireConfig.paths.widgets;
       }
 
       var widgetPath = widgetsPath + '/' + widgetName;
+
       // Unique sandbox module to be used by this widget
       var widgetSandboxPath = 'sandbox$' + widgetName + '-' + sandboxSerial++;
+
+      element.context = widgetSandboxPath;
 
       var sandboxRequireConfig = {
         baseUrl: requireConfig.baseUrl,
         paths: requireConfig.paths,
         context: widgetSandboxPath,
+        channel: widgetName,
         map: {},
         packages: [
           { name: widgetName, location: widgetPath }
@@ -300,6 +311,10 @@ define(['aura_base', 'aura_sandbox', 'aura_perms'], function(base, sandbox, perm
         } catch (e) {
           console.error(e);
         }
+
+        // Adding widget context to contexts registry...
+        contexts[widgetName] = contexts[widgetName] || {};
+        contexts[widgetName][widgetSandboxPath] = { element: element, name: widgetSandboxPath };
         dfd.resolve();
       }, function(err) {
         if (err.requireType === 'timeout') {
@@ -335,31 +350,74 @@ define(['aura_base', 'aura_sandbox', 'aura_perms'], function(base, sandbox, perm
   // * **param:** {string} channel Event name
   // * **param:** {string} el Element name (Optional)
   core.stop = function(channel, el) {
-    var file = decamelize(channel);
+    var element, file = decamelize(channel);
 
-    for (var ch in channels) {
-      if (channels.hasOwnProperty(ch)) {
-        for (var i = 0, l = channels[ch].length; i < l; i++) {
-          if (channels[ch][i].subscriber === channel) {
+    if (el) {
+      element = core.dom.find(el);
+    }
 
-            // If core.stop is being called as a callback to core.emit,
-            // removing the subscriber at this point can cause an error with
-            // emit's iterator going longer than the changed array length.
-            // Set the callback to null and have core.emit check this.
-            channels[ch][i].callback = null;
+    if (element && element.length === 1) {
+      core.unload(element[0].context);
+      core.dom.find(element).children().remove();
+    } else if (contexts[channel]) {
+      core.util.each(contexts[channel], function(i, ctx) {
+        core.unload(ctx.name);
+        core.dom.find(ctx.element).children().remove();
+      });
+    }
+
+
+    if (contexts[channel] !== undefined) {
+
+      // Check if we still have contexts for this channels
+      var ctx = [];
+      for (var k in contexts[channel]) {
+        if (contexts[channel].hasOwnProperty(k) &&  contexts[channel][k].name) {
+          ctx.push(contexts[channel][k]);
+        }
+      }
+
+      if (ctx.length > 0) {
+        return;
+      }
+
+      for (var ch in channels) {
+        if (channels.hasOwnProperty(ch)) {
+          for (var i = 0, l = channels[ch].length; i < l; i++) {
+            if (channels[ch][i].subscriber === channel) {
+
+              // If core.stop is being called as a callback to core.emit,
+              // removing the subscriber at this point can cause an error with
+              // emit's iterator going longer than the changed array length.
+              // Set the callback to null and have core.emit check this.
+              channels[ch][i].callback = null;
+            }
           }
         }
       }
     }
-    // Remove all modules under a widget path (e.g widgets/todos)
-    core.unload('widgets/' + file);
 
-    // Remove widget descendents, unbinding any event handlers
-    // attached to children within the widget.
-    if(el) {
-      core.dom.find(el).children().remove();
-    }
   };
+
+
+  function unloadContext(contextName) {
+    var context = require.s.contexts[contextName];
+    if (!context) {
+      return false;
+    }
+    var key,
+        req         = require.config({ context: contextName }),
+        contextMap  = context.defined,
+        ownProp     = Object.prototype.hasOwnProperty;
+    for (key in contextMap) {
+      if (ownProp.call(contextMap, key)) {
+        req.undef(key);
+      }
+    }
+
+    // TODO: Make sure this is a proper way to cleanup contexts in require...
+    delete require.s.contexts[contextName];
+  }
 
   // Undefine/unload a module, resetting the internal state of it in require.js
   // to act like it wasn't loaded. By default require won't cleanup any markup
@@ -378,15 +436,20 @@ define(['aura_base', 'aura_sandbox', 'aura_perms'], function(base, sandbox, perm
   // widget path as we know those dependencies (e.g models, views etc) should only
   // belong to one part of the codebase and shouldn't be depended on by others.
   //
-  // * **param:** {string} channel Event name
-  core.unload = function(channel) {
-    var key;
-    var contextMap = require.s.contexts._.defined;
+  // * **param:** {string} ref Widget channel or context name
+  core.unload = function(ref) {
+    var req, contextMap, key, context = require.s.contexts[ref];
 
-    for (key in contextMap) {
-      if (contextMap.hasOwnProperty(key) && key.indexOf(channel) !== -1) {
-        require.undef(key);
-      }
+    if (context) {
+      unloadContext(ref);
+      delete contexts[context.config.channel][ref];
+    } else if (contexts[ref] && contexts[ref].length > 0) {
+      core.util.each(contexts[ref], function(i, ctx) {
+        unloadContext(ctx);
+      });
+      contexts[ref] = {};
+    } else {
+      console.log("Nothing to unload for ", ref);
     }
   };
 
@@ -395,5 +458,4 @@ define(['aura_base', 'aura_sandbox', 'aura_perms'], function(base, sandbox, perm
   };
 
   return core;
-
 });
