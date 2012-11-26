@@ -6,7 +6,6 @@ define(['sandbox', './event', '../models/event', 'text!../templates/base.html'],
 
     initialize: function() {
       this.$el.html(baseTemplate);
-      this.calendar = this.$('.content');
       sandbox.events.bindAll(this);
       this.collection.bind('reset', this.addAll);
       this.collection.bind('event-added', this.addOne);
@@ -21,6 +20,11 @@ define(['sandbox', './event', '../models/event', 'text!../templates/base.html'],
       sandbox.on('calendar', this.calendarController, this);
     },
 
+    fullCalendar: function() {
+      this.calendar = this.calendar || this.$('.content');
+      return this.calendar.fullCalendar.apply(this.calendar, arguments);
+    },
+
     calendarController: function() {
       var args = arguments;
       var action = args[0]; // such as 'changeView'
@@ -28,9 +32,9 @@ define(['sandbox', './event', '../models/event', 'text!../templates/base.html'],
       if (action === 'gotoDate') {
         // ex: #calendar/gotoDate/2012/2/2
         if (args[3] != null) { // day entered
-          this.calendar.fullCalendar('changeView', 'agendaDay');
+          this.fullCalendar('changeView', 'agendaDay');
         } else { // if not, month view
-          this.calendar.fullCalendar('changeView', 'month');
+          this.fullCalendar('changeView', 'month');
         }
         var current = new Date(); // current date
         var year = args[1] || current.getYear(),
@@ -38,17 +42,17 @@ define(['sandbox', './event', '../models/event', 'text!../templates/base.html'],
           day = args[3] || current.getDay();
         var date = new Date(year, month, day);
 
-        this.calendar.fullCalendar.call(this.calendar, 'gotoDate', date);
+        this.fullCalendar.call(this.calendar, 'gotoDate', date);
       } else {
         // #calendar/changeView/agendaDay or
         // #calendar/changeView/month
-        this.calendar.fullCalendar('changeView', args[1]);
+        this.fullCalendar('changeView', args[1]);
       }
 
     },
 
     render: function() {
-      this.calendar.fullCalendar({
+      this.fullCalendar({
         header: {
           left: 'prev,next today',
           center: 'title',
@@ -67,11 +71,11 @@ define(['sandbox', './event', '../models/event', 'text!../templates/base.html'],
     },
 
     addAll: function() {
-      this.calendar.fullCalendar('addEventSource', this.collection.toJSON());
+      this.fullCalendar('addEventSource', this.collection.toJSON());
     },
 
     addOne: function(event) {
-      this.calendar.fullCalendar('renderEvent', event.toJSON());
+      this.fullCalendar('renderEvent', event.toJSON());
       sandbox.emit('new-event', event.toJSON());
     },
 
@@ -90,11 +94,11 @@ define(['sandbox', './event', '../models/event', 'text!../templates/base.html'],
 
     change: function(event) {
       // Look up the underlying event in the calendar and update its details from the model
-      var fcEvent = this.calendar.fullCalendar('clientEvents', event.get('id'))[0];
+      var fcEvent = this.fullCalendar('clientEvents', event.get('id'))[0];
 
       fcEvent.title = event.get('title');
       fcEvent.color = event.get('color');
-      this.calendar.fullCalendar('updateEvent', fcEvent);
+      this.fullCalendar('updateEvent', fcEvent);
     },
 
     eventDropOrResize: function(fcEvent) {
@@ -106,7 +110,7 @@ define(['sandbox', './event', '../models/event', 'text!../templates/base.html'],
     },
 
     destroy: function(event) {
-      this.calendar.fullCalendar('removeEvents', event.id);
+      this.fullCalendar('removeEvents', event.id);
     }
   });
 
