@@ -17,6 +17,7 @@ define(['sandbox', 'text!../templates/controls.html'], function(sandbox, control
     initialize: function() {
       this.$el.html(controlTemplate);
       this.$el.find('.language').val(require.aura.locale);
+      sandbox.widgets.start([{ channel: 'router', options: { element: "#routes" } }]);
     },
 
     render: function() {
@@ -38,7 +39,7 @@ define(['sandbox', 'text!../templates/controls.html'], function(sandbox, control
     },
 
     stopTodos: function() {
-      sandbox.widgets.stop('todos', '#todoapp');
+      sandbox.widgets.stop('todos');
     },
 
     stopCalendar: function() {
@@ -46,7 +47,9 @@ define(['sandbox', 'text!../templates/controls.html'], function(sandbox, control
     },
 
     startTodos: function() {
-      sandbox.widgets.start('todos', { element: '#todoapp' });
+      sandbox.dom.find('.todoapp').each(function(i, el) {
+        sandbox.widgets.start('todos', { element: "#" + el.getAttribute('id') });
+      });
     },
 
     startCalendar: function() {

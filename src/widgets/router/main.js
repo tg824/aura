@@ -3,6 +3,7 @@ define(['sandbox', 'underscore'], function(sandbox, _) {
   "use strict";
 
   return function(element) {
+
     var Router = sandbox.mvc.Router({
       initialize: function() {
         this.startHistory();

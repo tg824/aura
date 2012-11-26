@@ -46,10 +46,6 @@ define(['aura_core', 'backboneSandbox'], function(core, backboneSandbox) {
     options: {
       element: '#boilerplateapp2'
     }
-  }, {
-    channel: 'router',
-    options: {
-      element: '#router'
-    }
-  }]);
+  }
+  ]);
 });
