@@ -1,4 +1,4 @@
-define(['sandbox', './event', '../models/event', 'text!../templates/base.html'], function(sandbox, EventView, Event, baseTemplate) {
+define(['sandbox', './event', '../models/event', 'text!../templates/base.html', 'fullcalendar'], function(sandbox, EventView, Event, baseTemplate, fullCalendar) {
   'use strict';
 
   var AppView = sandbox.mvc.View({

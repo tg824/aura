@@ -5,7 +5,7 @@ define(['sandbox', 'underscore'], function(sandbox, _) {
   return function(element) {
     var Router = sandbox.mvc.Router({
       initialize: function() {
-        Backbone.history.start();
+        this.startHistory();
       },
       routes: {
         '*router': 'router'
