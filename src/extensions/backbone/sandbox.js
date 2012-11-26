@@ -4,6 +4,8 @@
 define(['perms', 'backbone', 'localstorage', 'jquery_ui'], function(perms, Backbone, Store) {
   'use strict';
 
+  var historyStarted = false;
+
   return {
     extend: function(sandbox, channel) {
       sandbox.data.Store = Store;
@@ -23,7 +25,14 @@ define(['perms', 'backbone', 'localstorage', 'jquery_ui'], function(perms, Backb
       };
 
       sandbox.mvc.Router = function(router) {
-        return Backbone.Router.extend(router);
+        return Backbone.Router.extend(router).extend({
+          startHistory: function() {
+            if (!historyStarted) {
+              historyStarted = true;
+              Backbone.history.start();
+            }
+          }
+        });
       };
 
       sandbox.widgets.stop = function(channel, el) {
