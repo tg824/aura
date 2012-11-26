@@ -35,7 +35,7 @@ define(['sandbox', 'text!../templates/sample.html'], function(sandbox, sampleTem
     },
 
     initialize: function() {
-      this.$el.html(sampleTemplate);
+      this.$el.html(this.sampleTemplate({ sandboxId: sandbox.id }));
     },
 
     render: function() {
