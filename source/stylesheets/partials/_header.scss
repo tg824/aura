@@ -1,0 +1,106 @@
+
+@mixin invisibleGlow(){
+  @include text-shadow(0 1px 2px darken($turquoise, 5%), 0 0px 30px $turquoise, 0 0px 30px $turquoise);
+}
+.header {
+  background: $turquoise;
+  position: relative;
+  z-index: 100;
+  .title, .logo{
+    color:white;
+    font-weight: 300;
+    @include text-shadow(0 1px 4px darken($turquoise,10%),0 1px 20px $turquoise);
+  }
+  .logo {
+    color:white;
+    margin: 0;
+    float: left;
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing:0.2em;
+  }
+  a {
+    color: white;
+    &:hover, &:active {
+      text-decoration: none;
+    }
+  }
+}
+
+.header-inner {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+  line-height: 20px;
+}
+
+.header-menu {
+  float: right;
+  font-size: 14px;
+  ul {
+    margin: 0;
+    list-style: none;
+  }
+  li {
+    float: left;
+    margin-left: 15px;
+  }
+  a {
+    color: rgba(255, 255, 255, 0.8);
+    @include invisibleGlow();
+    &:hover, &:active, .is_active & {
+      color: rgba(255, 255, 255, 1);
+    }
+  }
+}
+
+.glow, #particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+#particles{
+  background:$turquoise;
+}
+
+
+.splash {
+  position: relative;
+  padding: 80px 0;
+  text-align: center;
+  h2 {
+    color:white;
+    margin-bottom: 60px;
+    font-size: 46px;
+  }
+  .buttonset {
+    width: 545px;
+    margin: 0 auto;
+  }
+  .button {
+    float: left;
+    width: 120px;
+    margin-left: 15px;
+    &.faded{
+      color:rgba(255,255,255,.8);
+      @include invisibleGlow();
+      &:hover, &:active{
+        color:rgba(255,255,255,1);
+      }
+    }
+  }
+}
+
+// .glow{
+//   background-position: 100% 50%;
+//   opacity: 0.15;
+// }
+// .glow-red { background-image: url('/images/aura-red.png'); }
+// .glow-green { background-image: url('/images/aura-green.png'); }
+// .glow-blue { background-image: url('/images/aura-blue.png'); }
+// .glow-yelow { background-image: url('/images/aura-yellow.png'); }
+// .glow-violet { background-image: url('/images/aura-violet.png'); }

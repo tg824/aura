@@ -1,13 +1,18 @@
 @charset "utf-8";
 
-@import "compass/css3";
 @import "http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,600,900";
+@import "compass/css3";
+@import "vendors/foundation";
+
+@import "utils/colors";
+
 @import "partials/styles";
 @import "partials/typography";
+@import "partials/header";
+@import "partials/buttons";
 @import "partials/pygment_trac";
 
 
-$turquoise : #26c1c5;
 .element{
   @include border-radius(6px);
   @include background-image(linear, 50% 0%, 50% 100%, color-stop(0%, rgba(255, 255, 255, 0.9)), color-stop(100%, rgba(255, 255, 255, 0)));
@@ -29,3 +34,4 @@ $turquoise : #26c1c5;
     padding: 50px;
   }
 }
+
