@@ -67,8 +67,9 @@ $(function(){
     }
 
     document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-    document.addEventListener( 'touchstart', onDocumentTouchStart, false );
-    document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+    // No touch events for now.
+    // document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+    // document.addEventListener( 'touchmove', onDocumentTouchMove, false );
 
     //
 
@@ -202,7 +203,12 @@ $(function(){
   //
 
   function animate() {
-    requestAnimationFrame( animate );
+
+    setTimeout( function() {
+        requestAnimationFrame( animate );
+    }, 1000 / 25 );
+
+    // requestAnimationFrame( animate );
     render();
     if (showStats){
       stats.update();
