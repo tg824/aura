@@ -1,10 +1,5 @@
 .header
   #particles
-  / .glow.glow-red
-  / .glow.glow-green
-  / .glow.glow-yellow
-  / .glow.glow-blue
-  / .glow.glow-violet
 
   == partial 'partials/nav'
   section.splash.row
@@ -12,9 +7,9 @@
       h2.title A clean and scalable architecture<br>for complex javascript applications.
       / h3.title Aura implements a decoupled and event driven architecture so you can build safe and scalable javascript applications.
       .buttonset
-        a.button href="#" Download
-        a.button.faded href="#" Documentation
-        a.button.faded href="#" View on Github
+        a.button href="https://github.com/addyosmani/aura/archive/master.zip" Download
+        a.button.faded href="https://github.com/addyosmani/aura/blob/master/README.md" Documentation
+        a.button.faded href="https://github.com/addyosmani/aura/" View on Github
 
 section.framework-introduction
   header.heading.row.component-title
@@ -32,57 +27,4 @@ section.framework-introduction
       p Aura gives you complete control of a widget's lifecycle, allowing developers to dynamically start, stop, reload and clean-up parts of their application as needed.
 
 
-
-section.framework-architecture
-  .row
-
-    .twelve.columns.component-title
-      h2.title Aura's multi-tiered architecture.
-
-      .row
-        .four.columns.offset-by-four
-          .element
-            h3 Vendors
-            p (jQuery, require.js ...)
-
-      .row
-        .two.columns.offset-by-five
-          .element
-            h3 Base
-
-      .row
-        .four.columns.offset-by-four
-          .element.round
-            h3 Core
-
-      .row
-
-        .three.columns
-          .element
-            h3.component-title Application Core
-
-        .three.columns
-          .element
-            h3.component-title Sandbox
-
-        .three.columns
-          .element
-            h3.component-title Module
-
-        .three.columns
-          .element
-            h3.component-title Widget
-
-footer.footer
-  section.credits
-    .row
-      .twelve.columns
-        p
-          strong Made by:
-          | Addy Osmani, Dustin Boston, Gerson Goulart, Tony Narlock, Sindre Sorhus, Peter Rudolfsen, Robert Djurasaj, Joel Hooks, Dan Lynch
-        p
-          a href="#" © 2012 Addy Osmani ·
-          a href="#" Licensed under the MIT license ·
-          a href="#" Design by hull.io
-
-
+== partial 'partials/schema'
