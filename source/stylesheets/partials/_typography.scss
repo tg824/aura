@@ -1,23 +1,65 @@
-
-.centered{
-  text-align: center;
+body {
+  @extend .brand-font;
+  color: #888888;
+  font: 16px/1.5;
+  text-rendering: optimizelegibility;
+  -webkit-font-smoothing: antialiased;
 }
-
-
-h1, h2, h3, h4, h5, h6{
+a {
+  color: #26c1c5;
+  text-decoration: none;
+  @include transition(all 0.3s);
+  &:hover, &:active {
+    text-decoration: underline;
+  }
+}
+h1, h2, h3, h4, h5, h6 {
+  @extend .brand-font;
+  color: #4d4d4d;
+  margin: 15px 0;
   font-weight:200;
   &.title{
     font-weight:400;
   }
 }
+h1 {
+  font-size: 32px;
+}
+h2 {
+  font-size: 26px;
+}
+h3 {
+  font-size: 22px;
+}
+h4 {
+  font-size: 20px;
+}
+h5 {
+  font-size: 18px;
+}
+h6 {
+  font-size: 16px;
+}
+ul, ol {
+  padding-left: 20px;
+}
+p, ul, ol, blockquote, pre {
+  margin-bottom: 5px;
+}
+code {
+  font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
+}
 
+.align-center{
+  text-align: center;
+}
 
 nav{
   font-weight:600;
 }
 
-
 .component-title{
   font-weight:400;
+  text-align: center;
+  font-size: 13px;
 }
-

@@ -1,30 +1,23 @@
 a.button, .button{
+  color: $turquoise;
   display: inline-block;
   padding: 17px 20px;
   font-size: 16px;
-  line-height: 1;
-  text-decoration: none;
   font-weight: 600;
-  color: $turquoise;
-  background-color:white;
-  background-color: rgba(255, 255, 255, 0.7);
-  @include border-radius(3px);
-  @include background-image(linear-gradient(rgba(255,255,255,0.9),rgba(255,255,255,0)));
-  @include box-shadow(inset 0 1px 0 white, 0 1px 3px rgba(0,0,0,0.2));
+  text-decoration: none;
+  line-height: 1;
+  @include box-sizing('content-box');
+  @include transition(all 0.4s);
+  @include pad_style;
   &:hover, &:active{
     text-decoration:none;
-    background-color: rgba(255, 255, 255, 0.9);
+    color:$turquoise;
   }
   &.faded{
     color: rgba(255, 255, 255, 0.55);
-    background: none;
     padding: 15px 18px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    @include box-shadow(none);
-    @include text-shadow(none);
     &:hover, &:active{
       color: rgba(255, 255, 255, 0.8);
-      border-color: rgba(255, 255, 255, 0.65);
     }
   }
 }
