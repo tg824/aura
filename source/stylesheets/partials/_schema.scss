@@ -90,15 +90,25 @@ $receiver_cycle : 0.3s;
 
 .sandbox{
   .svg{
-    position:absolute;
-    bottom:-20px;
-    right: -20px;
-    .right &{
-      right:auto;
-      left: -20px;
+    @media (min-width: 768px){
+      position:absolute;
+      bottom:-20px;
+      right: -20px;
+      .right &{
+        right:auto;
+        left: -20px;
+      }
     }
   }
 }
+
+// Mobile mode:  show only one widget;
+@media (max-width: 767px){
+  .upper, .right{
+    display:none;
+  }
+}
+
 
 .node{
   position:relative;
@@ -111,7 +121,13 @@ $receiver_cycle : 0.3s;
     @include text-shadow(0 1px 0px rgba(255, 255, 255, 1));
   }
   &.widget{
-    width: 90%;
+    @media (max-width: 767px){
+      margin-bottom: $message_size+15;
+    }
+
+    @media (min-width: 768px){
+      width: 90%;
+    }
     @include box-sizing(border-box);
     background-color:transparent;
     @include border-radius(5px);
@@ -147,9 +163,15 @@ $receiver_cycle : 0.3s;
 
 .message{
   position:absolute;
-  right:-120px;
-  bottom:-36px;
-
+  @media (max-width: 767px){
+    @include transform(rotate3d(0, 0, 1, 90deg));
+    left:50%;
+    margin-left:-($message_size+2)/2;
+  }
+  @media(min-width: 768px){
+    right:-120px;
+    bottom:-36px;
+  }
   .upper &{
     @include transform(rotate3d(0, 0, 1, 70deg));
     bottom:-90px;
@@ -174,3 +196,4 @@ $receiver_cycle : 0.3s;
   left:50%;
   margin-left:-($receiver_size+2)/2;
 }
+

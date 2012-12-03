@@ -28,7 +28,10 @@
 
 .popover.top {
   margin-top : -10px;
-  margin-left: 20px;
+  margin-left: -28px;
+  @media (min-width: 768px){
+    margin-left: 20px;
+  }
 }
 
 .popover.right {
