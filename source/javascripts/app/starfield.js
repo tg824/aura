@@ -222,5 +222,4 @@ $(function(){
     camera.lookAt( scene.position );
     renderer.render( scene, camera );
   }
-  window.renderStarField = render;
 });
