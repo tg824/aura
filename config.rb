@@ -8,6 +8,11 @@ require "slim"
 # First: gem install susy --pre
 # require 'susy'
 
+# Compass Animation plugin.
+require 'animation'
+# Foundation
+require "zurb-foundation"
+
 # Change Compass configuration
 # compass_config do |config|
 #   config.output_style = :compact
@@ -55,6 +60,10 @@ set :js_dir, 'javascripts'
 
 set :images_dir, 'images'
 
+set :markdown_engine, :redcarpet
+
+activate :livereload
+
 # Build-specific configuration
 configure :build do
   # For example, change the Compass output style for deployment
@@ -73,6 +82,7 @@ configure :build do
   # First: gem install middleman-smusher
   require "middleman-smusher"
   activate :smusher
+
 
   # Or use a different image path
   # set :http_path, "/Content/images/"
