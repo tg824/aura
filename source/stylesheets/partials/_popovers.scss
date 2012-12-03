@@ -154,6 +154,11 @@
 .popover{
   width:550px;
   text-align:left;
+  @media (max-width:767px){
+    width: 100%;
+    margin:0 !important;
+    position:static !important;
+  }
   @include pad_style;
   @include box-shadow(0 5px 20px rgba(0, 0, 0, 0.2));
   background-color:#FCFCFC;

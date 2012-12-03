@@ -18,12 +18,13 @@
     font-size: 20px;
     font-weight: 400;
     letter-spacing:0.2em;
-  }
-  a {
-    color: white;
-    &:hover, &:active {
-      text-decoration: none;
+    @media (max-width: 767px){
+      float: none;
+      text-align: center;
+      width: 100%;
+      display: block;
     }
+
   }
 }
 
@@ -37,6 +38,9 @@
 .header-menu {
   float: right;
   font-size: 14px;
+  @media (max-width: 767px){
+    display:none;
+  }
   ul {
     margin: 0;
     list-style: none;
@@ -49,6 +53,7 @@
     color: rgba(255, 255, 255, 0.8);
     @include invisibleGlow();
     &:hover, &:active, .is_active & {
+      text-decoration: none;
       color: rgba(255, 255, 255, 1);
     }
   }
@@ -63,6 +68,7 @@
   left: 0;
   right: 0;
 }
+
 #particles{
   height:520px;
   background:$turquoise;
@@ -74,22 +80,28 @@
   position: relative;
   padding: 80px 0;
   text-align: center;
+  @media (max-width: 767px){
+    padding:20px 0;
+  }
   h2 {
     color:white;
     margin-bottom: 60px;
     font-size: 46px;
-  }
-  .buttonset {
-    width: 545px;
-    margin: 0 auto;
+    @media (max-width: 767px){
+      margin-bottom: 20px;
+      font-size:24px;
+    }
   }
   .button {
-    float: left;
-    width: 120px;
-    margin-left: 15px;
+    margin:0 7px;
+    min-width: 160px;
+    @media (max-width: 767px){
+      width: 100%;
+      margin:10px 0;
+    }
     &.faded{
-      color:rgba(255,255,255,.8);
       @include invisibleGlow();
+      color:rgba(255,255,255,.8);
       &:hover, &:active{
         color:rgba(255,255,255,1);
       }
@@ -106,3 +118,4 @@
 // .glow-blue { background-image: url('/images/aura-blue.png'); }
 // .glow-yelow { background-image: url('/images/aura-yellow.png'); }
 // .glow-violet { background-image: url('/images/aura-violet.png'); }
+

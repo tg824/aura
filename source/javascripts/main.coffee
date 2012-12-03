@@ -1,17 +1,25 @@
 $ ->
-  $('.pop').each (i,e)->
-    source = $(@)
-    content = $($(@).data('source')).html()
-    source.data('content', content)
+  $(window).smartresize (e)->
+    initPopovers()
+
+
+  initPopovers = ()->
+    rw = $('.row').width()
+    $('.pop').each (i,e)->
+      source = $(@)
+      content = $($(@).data('source')).html()
+      source.data('content', content)
+      # Override popover placement if we're in responsive mode
+      source.data('placement','bottom') if rw<768;
 
   $('.pop').on 'mouseenter', (e)->
     $('.pop').not(@).popover('destroy')
     opts =
       html: true
       animation:true
-    # Override popover placement if we're in responsive mode
-    opts.placement = 'top' if $('.row').width()<768;
     $(@).popover(opts).popover('show')
 
   $('.pop').on 'mouseleave', (e)->
     $(@).popover('destroy')
+
+  initPopovers()

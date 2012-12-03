@@ -1,4 +1,4 @@
-a.button, .button{
+.button{
   color: $turquoise;
   display: inline-block;
   padding: 17px 20px;
@@ -6,7 +6,7 @@ a.button, .button{
   font-weight: 600;
   text-decoration: none;
   line-height: 1;
-  @include box-sizing('content-box');
+  @include box-sizing('border-box');
   @include transition(all 0.4s);
   @include pad_style;
   &:hover, &:active{

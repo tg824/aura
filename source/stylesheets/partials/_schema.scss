@@ -17,6 +17,7 @@ $receiver_cycle : 0.3s;
 
 .svg{
   margin:0 0.2em;
+  @include box-sizing(content-box);
   rect, path, polygon,  circle{
     fill: $light_gray !important;
   }
@@ -47,7 +48,7 @@ $receiver_cycle : 0.3s;
     }
   }
   .sandbox &{
-    @include badge($turquoise, $sandbox_size, 10px);
+    @include badge($turquoise, $sandbox_size, 5px);
     rect, path, polygon{
       fill: $white !important;
     }
@@ -166,7 +167,7 @@ $receiver_cycle : 0.3s;
   @media (max-width: 767px){
     @include transform(rotate3d(0, 0, 1, 90deg));
     left:50%;
-    margin-left:-($message_size+2)/2;
+    margin-left:-($message_size+6)/2;
   }
   @media(min-width: 768px){
     right:-120px;
