@@ -1,3 +1,4 @@
+$cog_cycle : 2s;
 $message_cycle : 0.3s;
 $receiver_cycle : 0.3s;
 
@@ -39,6 +40,10 @@ $receiver_cycle : 0.3s;
       @include transform-origin(50%);
       @include animation(pulse $message_cycle*6 $message_cycle*2 infinite);
     }
+  }
+  .cog{
+    @include transform-origin(50%);
+    @include animation(rotate $cog_cycle infinite)
   }
   .mail &, .calendar &, .comment &, .gallery &{
     width:$icon_size;
