@@ -5,7 +5,6 @@ $(function(){
   var mouseX = 0, mouseY = 0;
 
   var sceneWidth = window.innerWidth;
-  var sceneHeight = window.innerHeight;
   var sceneHeight = jqContainer.height();
   var halfX = sceneWidth / 2;
   var halfY = sceneHeight / 2;
@@ -141,16 +140,15 @@ $(function(){
     particle.material.opacity = 0;
     particle.scale.x = particle.scale.y = scale;
 
-    new TWEEN.Tween( particle )
-      .delay( delay )
-      .to( {}, (life+birth) )
-      .onComplete( function(){
-        initParticle(particle, delay, life, size);
-      } )
-      .start();
+    // // Tween life
+    // new TWEEN.Tween( particle )
+    //   .delay( delay )
+    //   .to( {}, (life+birth) )
+
+    //   .start();
 
     // perceived "Mass" of particle : the bigger the slower they move
-    var mass = life*(size>10?6:3);
+    var mass = life*(size>10?4:3);
 
     // // Tween Position
     new TWEEN.Tween( particle.position )
@@ -169,7 +167,10 @@ $(function(){
       // .easing(TWEEN.Easing.Exponential.Out);
 
     var alphaOut = new TWEEN.Tween( particle.material )
-      .to( {opacity : 0.01 }, life);
+      .to( {opacity : 0.01 }, life)
+      .onComplete( function(){
+        initParticle(particle, delay, life, size);
+      } )
 
     alphaIn.chain(alphaOut);
     alphaIn.start();
